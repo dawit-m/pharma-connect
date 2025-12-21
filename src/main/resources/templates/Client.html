@@ -1,26 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <title>Client Medicine Search</title>
 </head>
 <body>
 
-<h2>Search Medicine</h2>
+<h2>Client Medicine Search</h2>
 
-<form action="/client/search" method="get">
+<form method="get" action="/client/search">
     <input type="text" name="name" placeholder="Enter medicine name" />
     <button type="submit">Search</button>
 </form>
 
-<div th:if="${medicines != null}">
-    <h3>Results:</h3>
-    <ul>
-        <li th:each="med : ${medicines}">
-            <b th:text="${med.name}"></b> |
-            Exp: <span th:text="${med.expiryDate}"></span> |
-            Pharmacy ID: <span th:text="${med.pharmacy.id}"></span>
-        </li>
-    </ul>
+<hr>
+
+<div>
+    <h3>Result:</h3>
+    <p th:text="${result}"></p>
 </div>
 
 </body>

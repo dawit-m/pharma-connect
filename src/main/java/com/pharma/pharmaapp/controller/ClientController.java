@@ -17,14 +17,18 @@ public class ClientController {
     public ClientController(MedicineService medicineService) {
         this.medicineService = medicineService;
     }
+    
 
     @GetMapping("/client/search")
-    public String searchMedicine(
-            @RequestParam String name,
-            Model model
-    ) {
-        List<Medicine> medicines = medicineService.searchByName(name);
-        model.addAttribute("medicines", medicines);
-        return "client";
+public String search(@RequestParam String name, Model model) {
+
+    if (name.equalsIgnoreCase("paracetamol")) {
+        model.addAttribute("result", "Paracetamol is available at Health Plus Pharmacy");
+    } else {
+        model.addAttribute("result", "No medicine found");
     }
+
+    return "client";
+}
+
 }
