@@ -23,4 +23,5 @@ public class PharmacyController {
     public Pharmacy login(@RequestParam String username, @RequestParam String password) {
         return pharmacyService.login(username, password);
     }
+    
 }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Medicine</title>
+</head>
+<body>
+
+<h2>Search Medicine</h2>
+
+<form action="/client/search" method="get">
+    <input type="text" name="name" placeholder="Enter medicine name"/>
+    <button type="submit">Search</button>
+</form>
+
+<div th:if="${medicines}">
+    <h3>Results:</h3>
+    <ul>
+        <li th:each="med : ${medicines}">
+            <b th:text="${med.name}"></b> -
+            <span th:text="${med.expiryDate}"></span>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

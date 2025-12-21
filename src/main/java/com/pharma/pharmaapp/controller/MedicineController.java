@@ -18,7 +18,8 @@ public class MedicineController {
 
     // Pharmacy adds medicine
     @PostMapping("/add")
-    public Medicine add(@RequestBody Medicine medicine) {
+    public Medicine add(
+            @RequestBody Medicine medicine) {
         return medicineService.save(medicine);
     }
 
