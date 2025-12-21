@@ -19,7 +19,7 @@ public class MedicineService {
         return medicineRepository.save(medicine);
     }
 
-    public List<Medicine> search(String name) {
+    public List<Medicine> searchByName(String name) {
         return medicineRepository.findByNameContainingIgnoreCase(name);
     }
 }

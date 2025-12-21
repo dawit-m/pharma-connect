@@ -10,4 +10,14 @@ public class HomeController {
     public String home() {
         return "index";
     }
+
+    @GetMapping("/client")
+    public String clientPage() {
+        return "client";
+    }
+
+    @GetMapping("/pharmacy/login")
+    public String pharmacyLogin() {
+        return "pharmacy-login";
+    }
 }

@@ -26,6 +26,6 @@ public class MedicineController {
     // Client searches medicine
     @GetMapping("/search")
     public List<Medicine> search(@RequestParam String name) {
-        return medicineService.search(name);
+        return medicineService.searchByName(name);
     }
 }
