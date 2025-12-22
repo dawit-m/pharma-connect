@@ -20,6 +20,7 @@ public class Medicine {
     @ManyToOne
     @JoinColumn(name = "pharmacy_id")
     private Pharmacy pharmacy;
+    
 
     // Getters & Setters
     public Long getId() {

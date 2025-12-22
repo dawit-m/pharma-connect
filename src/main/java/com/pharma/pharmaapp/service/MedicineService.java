@@ -22,4 +22,7 @@ public class MedicineService {
     public List<Medicine> searchByName(String name) {
         return medicineRepository.findByNameContainingIgnoreCase(name);
     }
+    public void deleteMedicine(Long id) {
+        medicineRepository.deleteById(id);
+    }
 }
