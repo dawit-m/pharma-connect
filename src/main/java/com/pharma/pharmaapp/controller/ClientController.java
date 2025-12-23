@@ -17,18 +17,23 @@ public class ClientController {
     public ClientController(MedicineService medicineService) {
         this.medicineService = medicineService;
     }
-    
 
-    @GetMapping("/client/search")
-public String search(@RequestParam String name, Model model) {
-
-    if (name.equalsIgnoreCase("paracetamol")) {
-        model.addAttribute("result", "Paracetamol is available at Health Plus Pharmacy");
-    } else {
-        model.addAttribute("result", "No medicine found");
+    // Add this inside your ClientController.java
+    @GetMapping("/client")
+    public String showClientPage(Model model) {
+        // We provide an empty list so the page doesn't crash before the first search
+        model.addAttribute("medicines", new java.util.ArrayList<>());
+        return "client";
     }
 
-    return "client";
-}
-
+    @GetMapping("/client/search")
+    public String search(@RequestParam(required = false) String name, Model model) {
+        if (name != null && !name.isEmpty()) {
+            // This now searches the real database and updates searchCount!
+            List<Medicine> results = medicineService.searchByName(name);
+            model.addAttribute("medicines", results);
+            model.addAttribute("searchQuery", name);
+        }
+        return "client"; // Returns client.html
+    }
 }

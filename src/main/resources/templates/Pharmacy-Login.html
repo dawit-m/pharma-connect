@@ -1,27 +1,91 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Pharmacy Login</title>
-    <link rel="stylesheet" href="/css/style.css">
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Pharmacy Login | PharmaApp</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background: linear-gradient(
+            rgba(46, 204, 113, 0.1),
+            rgba(46, 204, 113, 0.1)
+          ),
+          url("https://images.unsplash.com/photo-1586015555751-63bb77f4322a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80");
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .login-card {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 400px;
+      }
+      .btn-login {
+        background-color: #2ecc71;
+        border: none;
+        padding: 12px;
+        font-weight: bold;
+        transition: 0.3s;
+      }
+      .btn-login:hover {
+        background-color: #27ae60;
+        transform: translateY(-2px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-card text-center">
+      <div class="mb-4">
+        <h2 class="fw-bold text-success">PharmaApp</h2>
+        <p class="text-muted">Pharmacist Management Portal</p>
+      </div>
 
-</head>
-<body>
+      <div th:if="${error}" class="alert alert-danger" role="alert">
+        Invalid username or password.
+      </div>
 
-<h2>Pharmacy Login</h2>
+      <form action="/pharmacy/login" method="POST">
+        <div class="mb-3 text-start">
+          <label class="form-label">Username</label>
+          <input
+            type="text"
+            name="username"
+            class="form-control"
+            placeholder="Enter pharmacy username"
+            required
+          />
+        </div>
+        <div class="mb-4 text-start">
+          <label class="form-label">Password</label>
+          <input
+            type="password"
+            name="password"
+            class="form-control"
+            placeholder="••••••••"
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary btn-login w-100 text-white"
+        >
+          Login to Dashboard
+        </button>
+      </form>
 
-<form action="/pharmacy/login" method="post">
-    <label>Username:</label><br>
-    <input type="text" name="username" required><br><br>
-
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br><br>
-
-    <button type="submit">Login</button>
-</form>
-    <p style="color:red" th:text="${error}"></p>    
-    <div class="container">
-    <!-- existing form here -->
-</div>
-
-</body>
+      <div class="mt-4">
+        <a href="/" class="text-decoration-none text-secondary small"
+          >← Back to Home</a
+        >
+      </div>
+    </div>
+  </body>
 </html>

@@ -1,16 +1,63 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Pharma App</title>
-</head>
-<body>
+  <head>
+    <title>PharmaApp | Home</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background: #f4f7f6;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .hero-card {
+        background: white;
+        padding: 50px;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 600px;
+      }
+      .btn-portal {
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        border-radius: 10px;
+        transition: 0.3s;
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      .icon-box {
+        font-size: 3rem;
+        color: #2ecc71;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hero-card">
+      <div class="icon-box">🏥</div>
+      <h1 class="fw-bold">Welcome to PharmaApp</h1>
+      <p class="text-muted mb-4">
+        The digital bridge between pharmacies and patients.
+      </p>
 
-<h1>Welcome to Pharma App</h1>
+      <div class="d-grid gap-2">
+        <a href="/client" class="btn btn-primary btn-portal">
+          🔍 Patient Search Portal
+        </a>
 
-<p>This is a Spring Boot application.</p>
+        <a href="/pharmacy/login" class="btn btn-outline-success btn-portal">
+          👨‍⚕️ Pharmacist Login
+        </a>
+      </div>
 
-<a href="/client">Client</a><br><br>
-<a href="/pharmacy/login">Pharmacy Login</a>
-
-</body>
+      <p class="mt-4 small text-secondary">
+        Looking for USSD? Dial <b>*456#</b> on your mobile phone.
+      </p>
+    </div>
+  </body>
 </html>

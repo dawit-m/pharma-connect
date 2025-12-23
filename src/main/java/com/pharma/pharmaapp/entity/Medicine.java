@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name ="medicine")
+@Table(name = "medicine")
 public class Medicine {
 
     @Id
@@ -15,14 +15,15 @@ public class Medicine {
     private String brandCountry;
     private LocalDate expiryDate;
     private int quantity;
+    private double price;
     private String imagePath;
+    private int searchCount = 0; // The popularity counter
 
     @ManyToOne
     @JoinColumn(name = "pharmacy_id")
     private Pharmacy pharmacy;
-    
 
-    // Getters & Setters
+    // Standard Getters
     public Long getId() {
         return id;
     }
@@ -43,6 +44,10 @@ public class Medicine {
         return quantity;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
     public String getImagePath() {
         return imagePath;
     }
@@ -51,6 +56,11 @@ public class Medicine {
         return pharmacy;
     }
 
+    public int getSearchCount() {
+        return searchCount;
+    } // Must match Service call
+
+    // Standard Setters
     public void setId(Long id) {
         this.id = id;
     }
@@ -71,6 +81,10 @@ public class Medicine {
         this.quantity = quantity;
     }
 
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
@@ -78,15 +92,8 @@ public class Medicine {
     public void setPharmacy(Pharmacy pharmacy) {
         this.pharmacy = pharmacy;
     }
-    private double price;
 
-// Getter
-public double getPrice() {
-    return price;
-}
-
-// Setter (This is what the error is looking for!)
-public void setPrice(double price) {
-    this.price = price;
-}
+    public void setSearchCount(int searchCount) {
+        this.searchCount = searchCount;
+    }
 }
