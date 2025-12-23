@@ -67,9 +67,18 @@
                 <h5 class="card-title text-success" th:text="${med.name}">
                   Medicine Name
                 </h5>
-                <h6 class="card-subtitle mb-2 text-muted">
-                  Available at: Health Plus Pharmacy
-                </h6>
+                <p class="text-muted small mb-1">
+                  Available at:
+                  <strong
+                    class="text-success"
+                    th:text="${med.pharmacy.pharmacyName}"
+                    >Pharmacy Name</strong
+                  >
+                </p>
+                <p class="text-muted mb-3" style="font-size: 0.85rem">
+                  📍 Location:
+                  <span th:text="${med.pharmacy.location}">Location</span>
+                </p>
                 <hr />
                 <div class="d-flex justify-content-between align-items-center">
                   <span

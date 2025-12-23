@@ -4,96 +4,108 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "medicine")
+@Table(name = "medicines")
 public class Medicine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
+    private double price;
+
+    @Column(nullable = false)
+    private int quantity;
+
+    private int searchCount = 0;
+
+    // New Fields for better data
     private String brandCountry;
     private LocalDate expiryDate;
-    private int quantity;
-    private double price;
     private String imagePath;
-    private int searchCount = 0; // The popularity counter
 
-    @ManyToOne
-    @JoinColumn(name = "pharmacy_id")
+    // RELATIONSHIP: Every medicine must belong to a Pharmacy
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pharmacy_id", nullable = false)
     private Pharmacy pharmacy;
 
-    // Standard Getters
+    // Constructors
+    public Medicine() {
+    }
+
+    // Getters and Setters
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getBrandCountry() {
-        return brandCountry;
-    }
-
-    public LocalDate getExpiryDate() {
-        return expiryDate;
-    }
-
-    public int getQuantity() {
-        return quantity;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public Pharmacy getPharmacy() {
-        return pharmacy;
-    }
-
-    public int getSearchCount() {
-        return searchCount;
-    } // Must match Service call
-
-    // Standard Setters
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setBrandCountry(String brandCountry) {
-        this.brandCountry = brandCountry;
-    }
-
-    public void setExpiryDate(LocalDate expiryDate) {
-        this.expiryDate = expiryDate;
+    public int getQuantity() {
+        return quantity;
     }
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public int getSearchCount() {
+        return searchCount;
+    }
+
+    public void setSearchCount(int searchCount) {
+        this.searchCount = searchCount;
+    }
+
+    public String getBrandCountry() {
+        return brandCountry;
+    }
+
+    public void setBrandCountry(String brandCountry) {
+        this.brandCountry = brandCountry;
+    }
+
+    public LocalDate getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(LocalDate expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
+    public String getImagePath() {
+        return imagePath;
     }
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
 
-    public void setPharmacy(Pharmacy pharmacy) {
-        this.pharmacy = pharmacy;
+    public Pharmacy getPharmacy() {
+        return pharmacy;
     }
 
-    public void setSearchCount(int searchCount) {
-        this.searchCount = searchCount;
+    public void setPharmacy(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
     }
 }

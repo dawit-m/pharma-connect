@@ -1,18 +1,18 @@
 package com.pharma.pharmaapp.repository;
 
 import com.pharma.pharmaapp.entity.Medicine;
+import com.pharma.pharmaapp.entity.Pharmacy;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface MedicineRepository extends JpaRepository<Medicine, Long> {
 
-    // For searching snippets of names (Client/USSD search)
+    // For the Public Search
     List<Medicine> findByNameContainingIgnoreCase(String name);
 
-    // Add this to MedicineRepository.java
-    List<Medicine> findTop3ByOrderBySearchCountDesc();
+    // For the Dashboard (Line 64 Fix)
+    List<Medicine> findByPharmacy(Pharmacy pharmacy);
 
-    // For finding an EXACT name to update the search count (Popularity logic)
-    // Change Optional<Medicine> to List<Medicine>
-    List<Medicine> findByName(String name);
+    // For the Popularity List (Line 53 Fix)
+    List<Medicine> findTop3ByOrderBySearchCountDesc();
 }

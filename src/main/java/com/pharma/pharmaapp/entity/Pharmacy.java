@@ -1,50 +1,93 @@
 package com.pharma.pharmaapp.entity;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "pharmacy")
+@Table(name = "pharmacies")
 public class Pharmacy {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String locationText;
-    private String googleMapLink;
-    private String licenseNumber;
-    private String phoneNumber;
-    
-    @Column(unique = true)
+    @Column(nullable = false)
+    private String pharmacyName;
+
+    @Column(nullable = false, unique = true)
+    private String tinNumber; // Business Verification Number
+
+    @Column(nullable = false)
+    private String location;
+
+    @Column(nullable = false, unique = true)
     private String username;
+
+    @Column(nullable = false)
     private String password;
 
-    // Constructors
-    public Pharmacy() {}
+    // This creates a relationship: One Pharmacy can have many Medicines
+    @OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL)
+    private List<Medicine> medicines;
+
+    // Default Constructor
+    public Pharmacy() {
+    }
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getLocationText() { return locationText; }
-    public void setLocationText(String locationText) { this.locationText = locationText; }
+    public String getPharmacyName() {
+        return pharmacyName;
+    }
 
-    public String getGoogleMapLink() { return googleMapLink; }
-    public void setGoogleMapLink(String googleMapLink) { this.googleMapLink = googleMapLink; }
+    public void setPharmacyName(String pharmacyName) {
+        this.pharmacyName = pharmacyName;
+    }
 
-    public String getLicenseNumber() { return licenseNumber; }
-    public void setLicenseNumber(String licenseNumber) { this.licenseNumber = licenseNumber; }
+    public String getTinNumber() {
+        return tinNumber;
+    }
 
-    public String getPhoneNumber() { return phoneNumber; }
-    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+    public void setTinNumber(String tinNumber) {
+        this.tinNumber = tinNumber;
+    }
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+    public String getLocation() {
+        return location;
+    }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<Medicine> getMedicines() {
+        return medicines;
+    }
+
+    public void setMedicines(List<Medicine> medicines) {
+        this.medicines = medicines;
+    }
 }

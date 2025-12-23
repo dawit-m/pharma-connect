@@ -1,39 +1,38 @@
 package com.pharma.pharmaapp.service;
 
-import com.pharma.pharmaapp.entity.Medicine;
-import com.pharma.pharmaapp.repository.MedicineRepository;
 import com.pharma.pharmaapp.entity.Pharmacy;
 import com.pharma.pharmaapp.repository.PharmacyRepository;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 public class PharmacyService {
 
     private final PharmacyRepository pharmacyRepository;
-    private MedicineRepository medicineRepository;
-
 
     public PharmacyService(PharmacyRepository pharmacyRepository) {
         this.pharmacyRepository = pharmacyRepository;
     }
 
+    // Register a new pharmacy business
     public Pharmacy register(Pharmacy pharmacy) {
         return pharmacyRepository.save(pharmacy);
     }
-    public Pharmacy login(String username, String password){
-        Pharmacy pharmacy = pharmacyRepository.findByUsername(username);
-        if(pharmacy!=null && pharmacy.getPassword().equals(password)){
+
+    // Login logic: Validates username and password against the database
+    public Pharmacy login(String username, String password) {
+        // .orElse(null) converts the Optional<Pharmacy> into a regular Pharmacy object
+        // If the username is not found, 'pharmacy' becomes null.
+        Pharmacy pharmacy = pharmacyRepository.findByUsername(username).orElse(null);
+
+        if (pharmacy != null && pharmacy.getPassword().equals(password)) {
             return pharmacy;
         }
         return null;
     }
-    public void addMedicine(String name, double price, int quantity) {
-    Medicine medicine = new Medicine();
-    medicine.setName(name);
-    medicine.setPrice(price);
-    medicine.setQuantity(quantity);
 
-    medicineRepository.save(medicine);
-}
-
+    // Helper method to find a pharmacy by ID
+    public Optional<Pharmacy> findById(Long id) {
+        return pharmacyRepository.findById(id);
+    }
 }
