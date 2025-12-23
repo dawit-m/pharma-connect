@@ -23,33 +23,33 @@ public class PharmacyManagementController {
     @Autowired
     private PharmacyRepository pharmacyRepository;
 
-    // --- 1. REGISTRATION ---
-
+    // --- 1. REGISTRATION PAGE ---
     @GetMapping("/register")
     public String showRegisterPage() {
         return "pharmacy-register";
     }
 
+    // Handles Registration (Fixes the missing phone number issue)
     @PostMapping("/register")
     public String registerPharmacy(@RequestParam String pharmacyName,
             @RequestParam String location,
             @RequestParam String tinNumber,
+            @RequestParam String phoneNumber,
             @RequestParam String username,
             @RequestParam String password) {
         Pharmacy pharmacy = new Pharmacy();
         pharmacy.setPharmacyName(pharmacyName);
         pharmacy.setLocation(location);
         pharmacy.setTinNumber(tinNumber);
+        pharmacy.setPhoneNumber(phoneNumber);
         pharmacy.setUsername(username);
         pharmacy.setPassword(password);
 
         pharmacyRepository.save(pharmacy);
-        // Redirect to login with a success message parameter
         return "redirect:/pharmacy/login?registered=true";
     }
 
-    // --- 2. LOGIN ---
-
+    // --- 2. LOGIN PAGE ---
     @GetMapping("/login")
     public String showLoginPage() {
         return "pharmacy-login";
@@ -64,7 +64,6 @@ public class PharmacyManagementController {
         Optional<Pharmacy> pharmacyOpt = pharmacyRepository.findByUsername(username);
 
         if (pharmacyOpt.isPresent() && pharmacyOpt.get().getPassword().equals(password)) {
-            // Store the whole Pharmacy object in the session
             session.setAttribute("loggedInPharmacy", pharmacyOpt.get());
             return "redirect:/pharmacy/dashboard";
         }
@@ -74,30 +73,29 @@ public class PharmacyManagementController {
     }
 
     // --- 3. DASHBOARD ---
-
     @GetMapping("/dashboard")
     public String dashboard(Model model, HttpSession session) {
         Pharmacy loggedInPharmacy = (Pharmacy) session.getAttribute("loggedInPharmacy");
 
-        // Security check: If not logged in, send back to login page
         if (loggedInPharmacy == null) {
             return "redirect:/pharmacy/login";
         }
 
-        // Only show medicines belonging to THIS pharmacy
+        // Fetch medicines only for this specific pharmacy
         List<Medicine> medicines = medicineService.findByPharmacy(loggedInPharmacy);
+
         model.addAttribute("medicines", medicines);
         model.addAttribute("pharmacyName", loggedInPharmacy.getPharmacyName());
 
         return "pharmacy-dashboard";
     }
 
-    // --- 4. MEDICINE MANAGEMENT ---
-
+    // --- 4. MEDICINE MANAGEMENT (Fixes Status 400 Error) ---
     @PostMapping("/add-medicine")
     public String addMedicine(@RequestParam String name,
             @RequestParam double price,
             @RequestParam int quantity,
+            @RequestParam String expiryDate,
             HttpSession session) {
 
         Pharmacy loggedInPharmacy = (Pharmacy) session.getAttribute("loggedInPharmacy");
@@ -108,7 +106,7 @@ public class PharmacyManagementController {
         medicine.setName(name);
         medicine.setPrice(price);
         medicine.setQuantity(quantity);
-        medicine.setPharmacy(loggedInPharmacy); // Link medicine to the logged-in pharmacy!
+        medicine.setPharmacy(loggedInPharmacy); // Links the medicine to Kenema Pharmacy
 
         medicineService.save(medicine);
         return "redirect:/pharmacy/dashboard";
@@ -123,9 +121,10 @@ public class PharmacyManagementController {
         return "redirect:/pharmacy/dashboard";
     }
 
+    // --- 5. LOGOUT ---
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        session.invalidate(); // Clear the session
-        return "redirect:/";
+        session.invalidate();
+        return "redirect:/pharmacy/login";
     }
 }

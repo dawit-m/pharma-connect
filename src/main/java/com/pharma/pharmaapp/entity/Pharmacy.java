@@ -1,6 +1,7 @@
 package com.pharma.pharmaapp.entity;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,10 +16,13 @@ public class Pharmacy {
     private String pharmacyName;
 
     @Column(nullable = false, unique = true)
-    private String tinNumber; // Business Verification Number
+    private String tinNumber;
 
     @Column(nullable = false)
     private String location;
+
+    @Column(nullable = false)
+    private String phoneNumber; // Updated field for contact info
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -26,12 +30,23 @@ public class Pharmacy {
     @Column(nullable = false)
     private String password;
 
-    // This creates a relationship: One Pharmacy can have many Medicines
-    @OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL)
-    private List<Medicine> medicines;
+    // Relationship: One Pharmacy can have many Medicines
+    @OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Medicine> medicines = new ArrayList<>();
 
     // Default Constructor
     public Pharmacy() {
+    }
+
+    // Parameterized Constructor
+    public Pharmacy(String pharmacyName, String tinNumber, String location, String phoneNumber, String username,
+            String password) {
+        this.pharmacyName = pharmacyName;
+        this.tinNumber = tinNumber;
+        this.location = location;
+        this.phoneNumber = phoneNumber;
+        this.username = username;
+        this.password = password;
     }
 
     // Getters and Setters
@@ -65,6 +80,14 @@ public class Pharmacy {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getUsername() {
