@@ -78,4 +78,15 @@ public class Medicine {
     public void setPharmacy(Pharmacy pharmacy) {
         this.pharmacy = pharmacy;
     }
+    private double price;
+
+// Getter
+public double getPrice() {
+    return price;
+}
+
+// Setter (This is what the error is looking for!)
+public void setPrice(double price) {
+    this.price = price;
+}
 }

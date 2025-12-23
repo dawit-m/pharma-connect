@@ -27,4 +27,14 @@ public class PharmacyController {
     ) {
         return pharmacyService.login(username, password);
     }
+    @PostMapping("/pharmacy/add-medicine")
+public String addMedicine(
+        @RequestParam String name,
+        @RequestParam double price,
+        @RequestParam int quantity
+) {
+    pharmacyService.addMedicine(name, price, quantity);
+    return "redirect:/pharmacy/dashboard";
+}
+
 }

@@ -4,6 +4,20 @@
     <title>Pharmacy Dashboard</title>
 </head>
 <body>
+<h2>Add Medicine</h2>
+
+<form action="/pharmacy/add-medicine" method="post">
+    <label>Medicine Name:</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <label>Price:</label><br>
+    <input type="number" name="price" required><br><br>
+
+    <label>Quantity:</label><br>
+    <input type="number" name="quantity" required><br><br>
+
+    <button type="submit">Add Medicine</button>
+</form>
 
 <h1>Pharmacy Dashboard</h1>
 <p>Welcome, Pharmacy 👋</p>

@@ -10,6 +10,7 @@ import java.util.List;
 public class MedicineService {
 
     private final MedicineRepository medicineRepository;
+    
 
     public MedicineService(MedicineRepository medicineRepository) {
         this.medicineRepository = medicineRepository;
