@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
-    <title>Pharmacy Dashboard | PharmaApp</title>
+    <title>Inventory Management | MedSignal</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -38,7 +38,6 @@
         padding: 25px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
       }
-      /* Add Medicine Form Styling */
       .add-form-container {
         background: #ffffff;
         border-radius: 12px;
@@ -52,19 +51,24 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-2 sidebar">
-          <h4 class="fw-bold text-success mb-4">🏥 PharmaApp</h4>
-          <a href="#" class="active">📦 Inventory</a>
+          <h4 class="fw-bold text-success mb-4">🌿 MedSignal</h4>
+          <a href="#" class="active">📦 Stock Inventory</a>
           <a th:href="@{/pharmacy/logout}" class="text-danger mt-5">Logout</a>
         </div>
 
         <div class="col-md-10 main-content">
           <h2 class="fw-bold mb-4">
-            Dashboard:
-            <span class="text-success" th:text="${pharmacyName}">Kenema</span>
+            Pharmacy Portal:
+            <span
+              class="text-success"
+              th:text="${session.loggedInPharmacy != null ? session.loggedInPharmacy.pharmacyName : 'Guest'}"
+              >Kenema</span
+            >
           </h2>
 
           <div class="add-form-container shadow-sm">
             <h5 class="fw-bold mb-3">Add New Medicine to Stock</h5>
+
             <form
               th:action="@{/pharmacy/add-medicine}"
               method="POST"
@@ -81,7 +85,7 @@
                 />
               </div>
               <div class="col-md-2">
-                <label class="small fw-bold">Price (Le)</label>
+                <label class="small fw-bold">Price (ETB)</label>
                 <input
                   type="number"
                   step="0.01"
@@ -112,30 +116,41 @@
               </div>
               <div class="col-md-2 d-flex align-items-end">
                 <button type="submit" class="btn btn-success w-100 fw-bold">
-                  Save Medicine
+                  Save Stock
                 </button>
               </div>
             </form>
           </div>
 
           <div class="inventory-card">
-            <h5 class="fw-bold mb-4">Current Stock</h5>
+            <h5 class="fw-bold mb-4">Current Stock Inventory</h5>
             <table class="table align-middle">
               <thead class="table-light">
                 <tr>
-                  <th>Name</th>
+                  <th>Medicine Name</th>
                   <th>Price</th>
-                  <th>Stock</th>
-                  <th>Expiry</th>
-                  <th>Action</th>
+                  <th>Stock Level</th>
+                  <th>Expiry Date</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 <tr th:each="med : ${medicines}">
-                  <td class="fw-bold" th:text="${med.name}">Drug</td>
-                  <td th:text="${med.price}">0.00</td>
-                  <td th:text="${med.quantity}">0</td>
-                  <td th:text="${med.expiryDate}">Date</td>
+                  <td class="fw-bold" th:text="${med.name}">Name</td>
+                  <td th:text="${med.price + ' ETB'}">0.00</td>
+                  <td>
+                    <span
+                      class="badge"
+                      th:classappend="${med.quantity < 10} ? 'bg-danger' : 'bg-success'"
+                      th:text="${med.quantity}"
+                      >0</span
+                    >
+                  </td>
+                  <td
+                    th:text="${med.expiryDate != null ? #temporals.format(med.expiryDate, 'dd MMM, yyyy') : 'No Date'}"
+                  >
+                    Date
+                  </td>
                   <td>
                     <a
                       th:href="@{/pharmacy/delete-medicine/{id}(id=${med.id})}"

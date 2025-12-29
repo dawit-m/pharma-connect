@@ -3,6 +3,8 @@ package com.pharma.pharmaapp.entity;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "medicines")
 public class Medicine {
@@ -24,11 +26,14 @@ public class Medicine {
 
     // New Fields for better data
     private String brandCountry;
+
+    @Column(name = "expiry_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate expiryDate;
     private String imagePath;
 
     // RELATIONSHIP: Every medicine must belong to a Pharmacy
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "pharmacy_id", nullable = false)
     private Pharmacy pharmacy;
 

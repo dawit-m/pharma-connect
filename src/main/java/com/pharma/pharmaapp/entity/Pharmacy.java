@@ -22,7 +22,7 @@ public class Pharmacy {
     private String location;
 
     @Column(nullable = false)
-    private String phoneNumber; // Updated field for contact info
+    private String phoneNumber;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -30,26 +30,33 @@ public class Pharmacy {
     @Column(nullable = false)
     private String password;
 
+    // Requirement 3: Google Maps Link (Length 500 for long URLs)
+    @Column(length = 500)
+    private String googleMapLink;
+
     // Relationship: One Pharmacy can have many Medicines
-    @OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true)
+    // FetchType.LAZY improves performance by only loading medicines when needed
+    @OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Medicine> medicines = new ArrayList<>();
 
-    // Default Constructor
+    // Default Constructor (Required by JPA)
     public Pharmacy() {
     }
 
-    // Parameterized Constructor
-    public Pharmacy(String pharmacyName, String tinNumber, String location, String phoneNumber, String username,
-            String password) {
+    // Updated Parameterized Constructor (Includes Google Map Link)
+    public Pharmacy(String pharmacyName, String tinNumber, String location, String phoneNumber,
+            String username, String password, String googleMapLink) {
         this.pharmacyName = pharmacyName;
         this.tinNumber = tinNumber;
         this.location = location;
         this.phoneNumber = phoneNumber;
         this.username = username;
         this.password = password;
+        this.googleMapLink = googleMapLink;
     }
 
-    // Getters and Setters
+    // --- Getters and Setters ---
+
     public Long getId() {
         return id;
     }
@@ -104,6 +111,14 @@ public class Pharmacy {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getGoogleMapLink() {
+        return googleMapLink;
+    }
+
+    public void setGoogleMapLink(String googleMapLink) {
+        this.googleMapLink = googleMapLink;
     }
 
     public List<Medicine> getMedicines() {

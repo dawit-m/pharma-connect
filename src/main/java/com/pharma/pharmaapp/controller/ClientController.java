@@ -23,7 +23,7 @@ public class ClientController {
     public String showClientPage(Model model) {
         // We provide an empty list so the page doesn't crash before the first search
         model.addAttribute("medicines", new java.util.ArrayList<>());
-        return "client";
+        return "client-search";
     }
 
     @GetMapping("/client/search")
@@ -34,6 +34,6 @@ public class ClientController {
             model.addAttribute("medicines", results);
             model.addAttribute("searchQuery", name);
         }
-        return "client"; // Returns client.html
+        return "client-search"; // Returns client.html
     }
 }

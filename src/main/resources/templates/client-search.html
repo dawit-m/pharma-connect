@@ -3,144 +3,188 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Search Medicines | PharmaApp</title>
+    <title>Find Medicine | MedSignal</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
     <style>
       body {
-        background-color: #f8f9fa;
+        background-color: #f4f7f6;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       }
-
-      /* Ensure the search section doesn't overlap the cards */
+      .navbar {
+        background-color: #2ecc71 !important;
+      }
       .search-hero {
-        position: relative;
-        z-index: 10;
         background: white;
         padding: 50px 0;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 30px;
       }
-
-      /* Card Styling */
       .med-card {
         border: none;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         background: white;
-        position: relative;
-        z-index: 5; /* Brings cards to the front */
+        padding: 20px;
         margin-bottom: 20px;
       }
-
-      /* THE CLICKABLE BUTTON FIX */
-      details {
-        display: block;
-        width: 100%;
-        margin-top: 15px;
-        position: relative;
-        z-index: 20; /* Ensures the click hits the details tag */
-      }
-
-      summary {
+      /* Styled Toggle Button */
+      details summary {
         list-style: none;
-        display: block; /* Important: makes the whole box clickable */
+        display: block;
         background-color: #2ecc71;
         color: white;
         padding: 12px;
         border-radius: 8px;
         text-align: center;
-        cursor: pointer; /* Changes mouse to hand icon */
+        cursor: pointer;
         font-weight: bold;
-        border: 1px solid #27ae60;
+        transition: 0.3s;
         user-select: none;
       }
-
-      summary::-webkit-details-marker {
+      details summary:hover {
+        background-color: #27ae60;
+      }
+      details summary::-webkit-details-marker {
         display: none;
       }
-
-      .contact-content {
-        background-color: #f1fcf4;
+      .info-box {
+        background-color: #f9f9f9;
+        border-radius: 10px;
         padding: 15px;
-        border-radius: 8px;
-        border-left: 5px solid #2ecc71;
         margin-top: 10px;
+        border-left: 5px solid #2ecc71;
       }
-
-      /* Visual cue that it's clickable */
-      summary:hover {
-        background-color: #27ae60;
+      .map-btn {
+        display: block;
+        background-color: #3498db;
+        color: white;
+        text-align: center;
+        padding: 10px;
+        border-radius: 6px;
+        text-decoration: none;
+        margin-top: 10px;
+        font-weight: 600;
+      }
+      .map-btn:hover {
+        background-color: #2980b9;
+        color: white;
+      }
+      .label-text {
+        color: #7f8c8d;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
       }
     </style>
   </head>
   <body>
-    <nav class="navbar navbar-dark bg-success mb-0">
+    <nav class="navbar navbar-dark shadow-sm">
       <div class="container">
-        <a class="navbar-brand fw-bold" href="/">🏥 PharmaApp</a>
+        <a class="navbar-brand fw-bold" href="/">🌿 MedSignal</a>
       </div>
     </nav>
 
     <div class="search-hero text-center">
       <div class="container">
-        <h2 class="fw-bold mb-4">Find Your Medicine</h2>
+        <h1 class="fw-bold mb-3">Find Your Medicine</h1>
+        <p class="text-muted">
+          Enter the name of the medicine you are looking for.
+        </p>
+
         <form
-          action="/client/search"
-          method="get"
-          class="row justify-content-center"
+          th:action="@{/client/search}"
+          method="GET"
+          class="row justify-content-center mt-4"
         >
           <div class="col-md-6">
-            <div class="input-group">
+            <div class="input-group input-group-lg">
               <input
                 type="text"
                 name="name"
-                class="form-control form-control-lg"
-                placeholder="Enter drug name..."
+                class="form-control"
+                placeholder="Search (e.g. Paracetamol)..."
+                th:value="${searchQuery}"
                 required
               />
-              <button class="btn btn-dark btn-lg" type="submit">Search</button>
+              <button class="btn btn-dark px-4" type="submit">Search</button>
             </div>
           </div>
         </form>
       </div>
     </div>
 
-    <div class="container py-5">
+    <div class="container pb-5">
       <div class="row" th:if="${medicines != null}">
         <div class="col-md-4" th:each="med : ${medicines}">
-          <div class="card med-card p-3">
-            <div class="d-flex justify-content-between">
-              <h5 class="fw-bold" th:text="${med.name}">Medicine</h5>
-              <span class="text-success fw-bold" th:text="'Le ' + ${med.price}"
+          <div class="med-card">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h4 class="fw-bold mb-0" th:text="${med.name}">Medicine</h4>
+              <span class="badge bg-success" th:text="${med.price + ' ETB'}"
                 >0.00</span
               >
             </div>
-            <p class="text-muted small">
-              Pharmacy:
-              <strong th:text="${med.pharmacy.pharmacyName}">Kenema</strong>
-            </p>
+
+            <div class="mt-3 mb-3">
+              <p class="mb-1 text-dark">
+                <span class="label-text">Pharmacy Name:</span><br />
+                🏥
+                <strong th:text="${med.pharmacy.pharmacyName}"
+                  >Pharmacy Name</strong
+                >
+              </p>
+
+              <p class="text-muted small mb-0">
+                <span class="label-text">Location:</span><br />
+                📍
+                <span th:text="${med.pharmacy.location}"
+                  >Pharmacy Location</span
+                >
+              </p>
+            </div>
+
             <hr />
 
             <details>
               <summary>📞 Contact Pharmacy</summary>
-              <div class="contact-content">
-                <p class="mb-1">
-                  <strong>📍 Location:</strong><br />
-                  <span th:text="${med.pharmacy.location}">Addis Ababa</span>
-                </p>
-                <p class="mb-0">
+              <div class="info-box">
+                <p class="mb-2">
                   <strong>📱 Phone:</strong><br />
                   <a
                     th:href="'tel:' + ${med.pharmacy.phoneNumber}"
-                    th:text="${med.pharmacy.phoneNumber}"
                     class="text-success fw-bold text-decoration-none"
+                    th:text="${med.pharmacy.phoneNumber}"
                     >+251...</a
                   >
                 </p>
+
+                <div
+                  th:if="${med.pharmacy.googleMapLink != null and !med.pharmacy.googleMapLink.isEmpty()}"
+                >
+                  <a
+                    th:href="${med.pharmacy.googleMapLink}"
+                    target="_blank"
+                    class="map-btn"
+                  >
+                    🗺️ View on Google Maps
+                  </a>
+                </div>
               </div>
             </details>
           </div>
         </div>
+      </div>
+
+      <div
+        th:if="${searchQuery != null and #lists.isEmpty(medicines)}"
+        class="text-center mt-5"
+      >
+        <h3 class="text-muted">
+          No medicines found for "<span th:text="${searchQuery}"></span>"
+        </h3>
+        <p>Please check the spelling or try another medicine.</p>
       </div>
     </div>
   </body>
