@@ -1,4 +1,4 @@
-# 🏥 PharmaConnect: Pharmacy Medicine Availability System
+# 🏥 MedSignal: Pharmacy Medicine Availability System
 
 ### 📌 Project Overview
 
